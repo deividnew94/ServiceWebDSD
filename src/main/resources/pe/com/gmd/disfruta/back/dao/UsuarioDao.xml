@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.gmd.disfruta.back.dao.UsuarioDao" >
+
+	<resultMap id="usuarioMap" type="pe.com.gmd.disfruta.back.model.Usuario">
+		<id column="idUsuario" property="idUsuario" jdbcType="INTEGER" />
+		<result column="nomUsuario" property="nomUsuario" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="listarUsuarios" parameterType="pe.com.gmd.disfruta.back.model.Usuario" resultMap="usuarioMap">
+		SELECT idUsuario, nomUsuario
+		  FROM usuario 
+		<where>
+			<if test="inEstado != ''">
+				inEstado = #{inEstado}
+			</if>
+		</where>
+	</select>
+	
+	<select id="cargarUsuario" parameterType="pe.com.gmd.disfruta.back.model.Usuario" resultMap="usuarioMap">
+		SELECT idUsuario,idEmpresa,logiUsuario,nomUsuario,apeUsuario,imgUsuario
+		  FROM usuario
+		 <where>
+		 	<if test="idUsuario > 0">
+		 		idUsuario = #{idUsuario}
+		 	</if>  
+		 	<if test="logiUsuario != ''">
+		 		logiUsuario = #{logiUsuario}
+		 	</if>
+		 </where>
+	</select>
+	
+	<insert id="registrarUsuario" parameterType="pe.com.gmd.disfruta.back.model.Usuario">
+		INSERT INTO usuario(logiUsuario,nomUsuario,apeUsuario,inEstado)	    
+	    VALUES(#{logiUsuario},#{nomUsuario},#{apeUsuario},'1')
+	    <selectKey resultType="Integer" keyProperty="idUsuario">
+			select LAST_INSERT_ID()
+		</selectKey>				     
+	</insert>
+	
+	<update id="actualizarUsuario" parameterType="pe.com.gmd.disfruta.back.model.Usuario">
+		UPDATE usuario
+		<set>
+			<if test="nomUsuario != ''">
+				nomUsuario = #{nomUsuario}
+			</if>
+			<if test="apeUsuario != ''">
+				apeUsuario = #{apeUsuario}
+			</if>
+			<if test="inEstado != ''">
+				inEstado = #{inEstado}
+			</if>
+		</set>		
+		 WHERE idUsuario = #{idUsuario}
+	</update>
+
+</mapper>

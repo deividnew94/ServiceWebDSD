@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.gmd.disfruta.back.dao.ProveedorDao" >
+
+	<resultMap id="proveedorMap" type="pe.com.gmd.disfruta.back.model.Proveedor">
+		<id column="idProveedor" property="idProveedor" jdbcType="INTEGER" />
+		<result column="nomProveedor" property="nomProveedor" jdbcType="VARCHAR" />
+		<result column="desProveedor" property="desProveedor" jdbcType="VARCHAR" />
+		<result column="urlProveedor" property="urlProveedor" jdbcType="VARCHAR" />
+		<result column="numTelefono" property="numTelefono" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="listarProveedores" parameterType="pe.com.gmd.disfruta.back.model.Proveedor" resultMap="proveedorMap">
+		SELECT idProveedor, nomProveedor, desProveedor, urlProveedor, numTelefono
+		  FROM proveedor
+		  WHERE 1 = 1
+		  <if test="idProveedor > 0">
+		  AND idProveedor  = #{idProveedor}
+		 </if>
+	</select>
+	
+	<select id="cargarProveedor" parameterType="pe.com.gmd.disfruta.back.model.Proveedor" resultMap="proveedorMap">
+		SELECT idProveedor, nomProveedor, desProveedor, urlProveedor, numTelefono
+		  FROM proveedor
+		 WHERE idProveedor  = #{idProveedor}
+	</select>
+	
+	<insert id="registrarProveedor" parameterType="pe.com.gmd.disfruta.back.model.Proveedor">
+	INSERT INTO proveedor(nomProveedor,desProveedor, inEstado ,urlProveedor, numTelefono)
+		VALUES(#{nomProveedor},#{desProveedor},'1',#{urlProveedor},#{numTelefono})		
+	</insert>
+	
+	<update id="actualizarProveedor" parameterType="pe.com.gmd.disfruta.back.model.Proveedor">
+		UPDATE proveedor
+		SET nomProveedor = #{nomProveedor},desProveedor = #{desProveedor},urlProveedor = #{urlProveedor},numTelefono = #{numTelefono}
+		WHERE idProveedor  = #{idProveedor}
+	</update>
+
+</mapper>

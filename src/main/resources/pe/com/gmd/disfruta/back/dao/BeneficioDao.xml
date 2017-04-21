@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.gmd.disfruta.back.dao.BeneficioDao" >
+
+	<resultMap id="beneficioMap" type="pe.com.gmd.disfruta.back.model.Beneficio">
+		<id column="idBeneficio" property="idBeneficio" jdbcType="INTEGER" />
+		<result column="idEmpresa" property="idEmpresa" jdbcType="INTEGER" />
+		<result column="idCategoria" property="idCategoria" jdbcType="INTEGER" />
+		<result column="idEje" property="idEje" jdbcType="INTEGER" />
+		<result column="idTipo" property="idTipo" jdbcType="INTEGER" />
+		
+		<result column="nomBeneficio" property="nomBeneficio" jdbcType="VARCHAR" />
+		<result column="desBeneficio" property="desBeneficio" jdbcType="VARCHAR" />
+		<result column="anioBeneficio" property="anioBeneficio" jdbcType="VARCHAR" />
+		<result column="fecInicio" property="fecInicio" jdbcType="VARCHAR" />
+		<result column="fecFin" property="fecFin" jdbcType="VARCHAR" />
+		<result column="fonBeneficio" property="fonBeneficio" jdbcType="VARCHAR" />
+		<result column="resBeneficio" property="resBeneficio" jdbcType="VARCHAR" />
+		<result column="inNotificacion" property="inNotificacion" jdbcType="VARCHAR" />		
+	</resultMap>
+	
+	<select id="listarBeneficios" parameterType="pe.com.gmd.disfruta.back.model.Beneficio" resultMap="beneficioMap">
+		SELECT ben.idBeneficio, ben.idEmpresa, ben.idProveedor, ben.idCategoria, ben.idEje, ben.idTipo, ben.nomBeneficio, ben.desBeneficio, ben.anioBeneficio, ben.fecInicio, ben.fecFin, ben.fonBeneficio, ben.resBeneficio, ben.inNotificacion, prov.nomProveedor, ej.nomEje
+		  FROM beneficio ben INNER JOIN proveedor prov on ben.idProveedor = prov.idProveedor INNER JOIN eje ej ON ben.idEje = ej.idEje
+		 WHERE 1 = 1		
+	</select>
+	
+	<select id="cargarBeneficios" parameterType="pe.com.gmd.disfruta.back.model.Beneficio" resultMap="beneficioMap">
+		SELECT ben.idBeneficio, ben.idEmpresa, ben.idProveedor, ben.idCategoria, ben.idEje, ben.idTipo, ben.nomBeneficio, ben.desBeneficio, ben.anioBeneficio, ben.fecInicio, ben.fecFin, ben.fonBeneficio, ben.resBeneficio, ben.inNotificacion, prov.nomProveedor, ej.nomEje
+		  FROM beneficio ben INNER JOIN proveedor prov on ben.idProveedor = prov.idProveedor INNER JOIN eje ej ON ben.idEje = ej.idEje
+		 WHERE idBeneficio = #{idBeneficio}		
+	</select>
+	
+	<select id="listarEjeBeneficios" parameterType="pe.com.gmd.disfruta.back.model.Beneficio" resultMap="beneficioMap">
+		SELECT ben.idBeneficio, ben.idEmpresa, ben.idProveedor, ben.idCategoria, ben.idEje, ben.idTipo, ben.nomBeneficio, ben.desBeneficio, ben.anioBeneficio, ben.fecInicio, ben.fecFin, ben.fonBeneficio, ben.resBeneficio, ben.inNotificacion, prov.nomProveedor, ej.nomEje
+		  FROM beneficio ben INNER JOIN proveedor prov on ben.idProveedor = prov.idProveedor INNER JOIN eje ej ON ben.idEje = ej.idEje
+		 WHERE ben.idEje = #{idEje}		
+	</select>
+	
+	<select id="listarTipoBeneficios" parameterType="pe.com.gmd.disfruta.back.model.Beneficio" resultMap="beneficioMap">
+		SELECT ben.idBeneficio, ben.idEmpresa, ben.idProveedor, ben.idCategoria, ben.idEje, ben.idTipo, ben.nomBeneficio, ben.desBeneficio, ben.anioBeneficio, ben.fecInicio, ben.fecFin, ben.fonBeneficio, ben.resBeneficio, ben.inNotificacion, prov.nomProveedor, ej.nomEje
+		  FROM beneficio ben INNER JOIN proveedor prov on ben.idProveedor = prov.idProveedor INNER JOIN eje ej ON ben.idEje = ej.idEje
+		 WHERE ben.idTipo = #{idTipo}		
+	</select>
+	
+	<insert id="registrarBeneficio" parameterType="pe.com.gmd.disfruta.back.model.Beneficio">
+		INSERT INTO beneficio(idEmpresa, idProveedor, idCategoria, idEje, idTipo, nomBeneficio, desBeneficio, anioBeneficio, fecInicio, fecFin, fonBeneficio, resBeneficio, inNotificacion, inEstado)
+		VALUES(#{idEmpresa},#{idProveedor},#{idCategoria},#{idEje},#{idTipo},#{nomBeneficio},#{desBeneficio},#{anioBeneficio},#{fecInicio},#{fecFin},#{fonBeneficio},#{resBeneficio},#{inNotificacion},'1')
+	    <selectKey resultType="Integer" keyProperty="idBeneficio">
+				select LAST_INSERT_ID()
+		</selectKey>			           
+	</insert>
+	
+	<update id="actualizarBeneficio" parameterType="pe.com.gmd.disfruta.back.model.Beneficio">
+		UPDATE beneficio
+		SET idBeneficio = #{idBeneficio},idEmpresa = #{idEmpresa},idProveedor = #{idProveedor},idCategoria = #{idCategoria}, idEje = #{idEje},idTipo = #{idTipo},nomBeneficio = #{nomBeneficio},desBeneficio = #{desBeneficio},anioBeneficio = #{anioBeneficio},fecInicio = #{fecInicio},fecFin = #{fecFin},fonBeneficio = #{fonBeneficio},resBeneficio = #{resBeneficio},inNotificacion = #{inNotificacion}
+		 WHERE idBeneficio = #{idBeneficio}
+	</update>
+
+</mapper>

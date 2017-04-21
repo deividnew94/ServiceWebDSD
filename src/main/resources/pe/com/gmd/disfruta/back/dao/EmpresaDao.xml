@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.gmd.disfruta.back.dao.EmpresaDao" >
+
+	<resultMap id="empresaMap" type="pe.com.gmd.disfruta.back.model.Empresa">
+		<id column="idEmpresa" property="idEmpresa" jdbcType="INTEGER" />
+		<result column="nomEmpresa" property="nomEmpresa" jdbcType="VARCHAR" />
+		<result column="desEmpresa" property="desEmpresa" jdbcType="VARCHAR" />
+		<result column="urlLogo" property="urlLogo" jdbcType="VARCHAR" />
+		<result column="numSoporte" property="numSoporte" jdbcType="VARCHAR" />
+		<result column="nomSkype" property="nomSkype" jdbcType="VARCHAR" />
+		<result column="inClave" property="inClave" jdbcType="VARCHAR" />
+		<result column="idLdap" property="ldap.idLdap" jdbcType="INTEGER" />
+		<result column="urlLdap" property="ldap.urlLdap" jdbcType="VARCHAR" />
+		<result column="baseLdap" property="ldap.baseLdap" jdbcType="VARCHAR" />
+		<result column="userLdap" property="ldap.userLdap" jdbcType="VARCHAR" />
+		<result column="passLdap" property="ldap.passLdap" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="listarEmpresas" parameterType="pe.com.gmd.disfruta.back.model.Empresa" resultMap="empresaMap">
+		SELECT idEmpresa, nomEmpresa, urlLogo, numSoporte, nomSkype, inClave
+		  FROM empresa
+		 WHERE 1 = 1
+		 <if test="inEstado != ''">
+		 	AND inEstado = #{inEstado}
+		 </if>
+		 <if test="idEmpresa > 0">
+		 	AND idEmpresa = #{idEmpresa}
+		 </if>
+	</select>
+	
+	<select id="cargarEmpresa" parameterType="pe.com.gmd.disfruta.back.model.Empresa" resultMap="empresaMap">
+		SELECT e.idEmpresa, e.nomEmpresa, e.desEmpresa, e.urlLogo, e.numSoporte, e.nomSkype, e.inClave,
+		       l.idLdap, l.urlLdap, l.baseLdap, l.userLdap, l.passLdap
+		  FROM empresa e
+		  LEFT JOIN empresa_ldap l ON l.idEmpresa = e.idEmpresa
+		 WHERE e.idEmpresa = #{idEmpresa}
+	</select>
+	
+	<insert id="registrarEmpresa" parameterType="pe.com.gmd.disfruta.back.model.Empresa">
+	INSERT INTO empresa(nomEmpresa,desEmpresa, urlLogo ,numSoporte, nomSkype,inEstado)
+		VALUES(#{nomEmpresa},#{desEmpresa},#{urlLogo},#{numSoporte},#{nomSkype},'1')		
+	</insert>
+	
+	<update id="actualizarEmpresa" parameterType="pe.com.gmd.disfruta.back.model.Empresa">
+		UPDATE empresa
+		SET nomEmpresa = #{nomEmpresa},desEmpresa = #{desEmpresa},urlLogo = #{urlLogo},numSoporte = #{numSoporte},nomSkype = #{nomSkype}
+		WHERE idEmpresa = #{idEmpresa}
+	</update>
+
+</mapper>

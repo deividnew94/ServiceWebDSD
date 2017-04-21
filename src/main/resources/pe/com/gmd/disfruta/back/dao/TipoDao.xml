@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.gmd.disfruta.back.dao.TipoDao" >
+
+	<resultMap id="tipoMap" type="pe.com.gmd.disfruta.back.model.Tipo">
+		<id column="idTipo" property="idTipo" jdbcType="INTEGER" />
+		<result column="nomTipo" property="nomTipo" jdbcType="VARCHAR" />
+		<result column="desTipo" property="desTipo" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="listarTipo" parameterType="pe.com.gmd.disfruta.back.model.Tipo" resultMap="tipoMap">
+		SELECT idTipo, nomTipo, desTipo
+		  FROM tipo
+	</select>
+	
+	<select id="cargarTipo" parameterType="pe.com.gmd.disfruta.back.model.Tipo" resultMap="tipoMap">
+		SELECT idTipo, nomTipo, desTipo
+		  FROM tipo
+		WHERE idTipo = #{idTipo}
+	</select>
+	
+	<insert id="registrarTipo" parameterType="pe.com.gmd.disfruta.back.model.Tipo">
+		INSERT INTO tipo(nomTipo,desTipo,inEstado)
+			     VALUES(#{nomTipo},#{desTipo},'1')
+	    <selectKey resultType="Integer" keyProperty="idEje">
+				select LAST_INSERT_ID()
+		</selectKey>				     
+	</insert>
+	
+	<update id="actualizarTipo" parameterType="pe.com.gmd.disfruta.back.model.Tipo">
+		UPDATE tipo
+		set nomTipo = #{nomTipo}, desTipo = #{desTipo}
+		 WHERE idTipo = #{idTipo}
+	</update>
+
+</mapper>

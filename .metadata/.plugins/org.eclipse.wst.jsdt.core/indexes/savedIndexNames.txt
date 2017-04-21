@@ -1,0 +1,7 @@
+INDEX VERSION 1.3+D:\Disfruta-back\disfruta-back-master\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2289839133.index
+348956735.index
+3320338787.index
+469035949.index
+1823905464.index
+3563557225.index

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pe.com.gmd.disfruta.back.dao.EjeDao" >
+
+	<resultMap id="ejeMap" type="pe.com.gmd.disfruta.back.model.Eje">
+		<id column="idEje" property="idEje" jdbcType="INTEGER" />
+		<result column="nomEje" property="nomEje" jdbcType="VARCHAR" />
+		<result column="desEje" property="desEje" jdbcType="VARCHAR" />
+		<result column="imgEje" property="imgEje" jdbcType="VARCHAR" />
+		<result column="fecEje" property="fecEje" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="listarEje" parameterType="pe.com.gmd.disfruta.back.model.Eje" resultMap="ejeMap">
+		SELECT idEje, nomEje, desEje, imgEje,fecEje
+		  FROM eje
+	</select>
+	
+	<select id="cargarEje" parameterType="pe.com.gmd.disfruta.back.model.Eje" resultMap="ejeMap">
+		SELECT idEje, nomEje, desEje, imgEje,fecEje
+		  FROM eje
+		WHERE idEje = #{idEje}
+	</select>
+	
+	<insert id="registrarEje" parameterType="pe.com.gmd.disfruta.back.model.Eje">
+		INSERT INTO eje(nomEje,desEje,imgEje,fecEje,inEstado)
+			     VALUES(#{nomEje},#{desEje},#{imgEje},#{fecEje},'1')
+	    <selectKey resultType="Integer" keyProperty="idEje">
+				select LAST_INSERT_ID()
+		</selectKey>				     
+	</insert>
+	
+	<update id="actualizarEje" parameterType="pe.com.gmd.disfruta.back.model.Eje">
+		UPDATE eje
+		set nomEje = #{nomEje}, desEje = #{desEje},imgEje = #{imgEje},fecEje = #{fecEje}
+		 WHERE idEje = #{idEje}
+	</update>
+
+</mapper>
